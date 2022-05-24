@@ -48,6 +48,11 @@ export async function listTorrents({
     params.reverse = JSON.stringify(reverse);
   }
 
-  const res = await qb.request<Torrent[]>("/torrents/info", "GET", params);
+  const res = await qb.request<Torrent[]>({
+    path: "/torrents/info",
+    method: "GET",
+    params,
+  });
+
   return res.body;
 }

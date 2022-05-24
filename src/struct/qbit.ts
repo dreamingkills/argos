@@ -26,15 +26,23 @@ export class qBittorrent {
     return this.expiration.getTime() < new Date().getTime();
   }
 
-  async request<T extends object | string>(
-    path: string,
-    method: GotOptions["method"],
-    params: any = {},
-    body?: GotOptions["body"],
-    form?: GotOptions["form"],
-    headers: any = {},
-    json = true
-  ): Promise<Response<T>> {
+  async request<T extends object | string>({
+    path,
+    method,
+    params = {},
+    body,
+    form,
+    headers = {},
+    json = true,
+  }: {
+    path: string;
+    method: GotOptions["method"];
+    params?: any;
+    body?: GotOptions["body"];
+    form?: GotOptions["form"];
+    headers?: any;
+    json?: boolean;
+  }): Promise<Response<T>> {
     if (!this.cookieIsValid()) await this.login();
 
     const url = urlJoin(this.config.baseUrl, this.config.path, path);
