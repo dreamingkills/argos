@@ -9,6 +9,23 @@ declare module "qbittorrent" {
     timeout: number;
   }
 
+  export interface AddTorrentOptions {
+    filename?: never; // idk what this is for yet
+    savepath?: string;
+    category?: string;
+    skip_checking?: "true" | "false";
+    paused?: "true" | "false";
+    contentLayout?: "Original" | "Subfolder" | "NoSubfolder";
+    rename?: string;
+    upLimit?: number;
+    dlLimit?: number;
+    ratioLimit?: number;
+    seedingTimeLimit?: number;
+    useAutoTMM?: "true" | "false";
+    sequentialDownload?: "true" | "false";
+    firstLastPiecePrio?: "true" | "false";
+  }
+
   export type TorrentFilters =
     | "all"
     | "downloading"

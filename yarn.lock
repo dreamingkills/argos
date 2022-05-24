@@ -9,6 +9,13 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@ctrl/torrent-file@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ctrl/torrent-file/-/torrent-file-2.0.1.tgz#36aa4465913ba7ebdea22fa796a6f48fcac52dbf"
+  integrity sha512-LRyJS+E1cLpP68huvU/nlHrGw5NoSGTggU1tYIckY/gjp9s7PKGuL1ufVHVAS2lQMXw0oF+7G7XXwQN1hODnPA==
+  dependencies:
+    crypto-hash "^2.0.1"
+
 "@ctrl/url-join@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@ctrl/url-join/-/url-join-2.0.0.tgz#dbdae9dbc928fe0eeb9d668fc322f43311881358"
@@ -414,6 +421,11 @@ create-torrent@^5.0.2:
     run-parallel "^1.2.0"
     simple-sha1 "^3.1.0"
 
+crypto-hash@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/crypto-hash/-/crypto-hash-2.0.1.tgz#46c3732e65a078ea06b8b4ae686db41216f81213"
+  integrity sha512-t4mkp7Vh6MuCZRBf0XLzBOfhkH3nW6YEAotMDSjshVQ1GffCMGdPLSr7pKH0rdXY02jTjAZ7QW2apD0buaZXcQ==
+
 crypto-random-string@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-2.0.0.tgz#ef2a7a966ec11083388369baa02ebead229b30d5"
@@ -580,6 +592,14 @@ form-data@^4.0.0:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
+
+formdata-node@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/formdata-node/-/formdata-node-4.3.2.tgz#0262e94931e36db7239c2b08bdb6aaf18ec47d21"
+  integrity sha512-k7lYJyzDOSL6h917favP8j1L0/wNyylzU+x+1w4p5haGVHNlP58dbpdJhiCUsDbWsa9HwEtLp89obQgXl2e0qg==
+  dependencies:
+    node-domexception "1.0.0"
+    web-streams-polyfill "4.0.0-beta.1"
 
 fsevents@~2.3.2:
   version "2.3.2"
@@ -950,6 +970,11 @@ music-metadata@^7.12.3:
     media-typer "^1.1.0"
     strtok3 "^6.3.0"
     token-types "^4.2.0"
+
+node-domexception@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
+  integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
 nodemon@^2.0.16:
   version "2.0.16"
@@ -1386,6 +1411,11 @@ v8-compile-cache-lib@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/v8-compile-cache-lib/-/v8-compile-cache-lib-3.0.1.tgz#6336e8d71965cb3d35a1bbb7868445a7c05264bf"
   integrity sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==
+
+web-streams-polyfill@4.0.0-beta.1:
+  version "4.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-4.0.0-beta.1.tgz#3b19b9817374b7cee06d374ba7eeb3aeb80e8c95"
+  integrity sha512-3ux37gEX670UUphBF9AMCq8XM6iQ8Ac6A+DSRRjDoRBm1ufCkaCDdNVbaqq60PsEkdNlLKrGtv/YBP4EJXqNtQ==
 
 widest-line@^3.1.0:
   version "3.1.0"
