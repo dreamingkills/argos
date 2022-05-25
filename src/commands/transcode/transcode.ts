@@ -2,6 +2,7 @@ import { GazelleTracker, RunCommand } from "argos";
 import { Embed } from "eris";
 import { CONSTANTS } from "../../lib/constants";
 import { addTorrent } from "../../lib/qb/torrents/addTorrent";
+import { addTorrentTags } from "../../lib/qb/torrents/addTorrentTags";
 import { getTorrent } from "../../lib/qb/torrents/getTorrent";
 import { compareGazelleTorrents } from "../../lib/tracker/gazelle/compareGazelleTorrents";
 import { getGazelleTorrent } from "../../lib/tracker/gazelle/getGazelleTorrent";
@@ -223,7 +224,8 @@ export const transcode: RunCommand = async ({ message, client }) => {
           );
           await msg.edit({ embeds: [embed] });
 
-          await addTorrent(file, `${name}.torrent`);
+          const addedTorrent = await addTorrent(file, `${name}.torrent`);
+          await addTorrentTags("etc", addedTorrent.hash);
         }
       }
     });
@@ -280,7 +282,8 @@ export const transcode: RunCommand = async ({ message, client }) => {
           );
           await msg.edit({ embeds: [embed] });
 
-          await addTorrent(file, `${name}.torrent`);
+          const addedTorrent = await addTorrent(file, `${name}.torrent`);
+          await addTorrentTags("etc", addedTorrent.hash);
         }
       }
     });
