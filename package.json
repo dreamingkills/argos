@@ -13,6 +13,7 @@
   "dependencies": {
     "@ctrl/torrent-file": "^2.0.1",
     "@ctrl/url-join": "^2.0.0",
+    "cpr": "^3.0.1",
     "create-torrent": "^5.0.2",
     "dotenv": "^16.0.1",
     "eris": "^0.16.1",

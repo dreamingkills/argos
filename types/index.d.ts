@@ -7,4 +7,6 @@ declare module "argos" {
   };
 
   export type RunCommand = (context: Context) => void | Promise<void>;
+  export type GazelleTracker = "ops" | "red";
+  export type Tracker = "ops" | "red";
 }

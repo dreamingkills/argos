@@ -15,8 +15,7 @@
       "node",
       "./types/index",
       "./types/qbittorrent",
-      "./types/orpheus",
-      "./types/redacted"
+      "./types/gazelle"
     ],
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
