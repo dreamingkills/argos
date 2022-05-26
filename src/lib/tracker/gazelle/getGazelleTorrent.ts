@@ -19,7 +19,7 @@ export async function getGazelleTorrent({
 
   console.log(url);
 
-  const response = await got<GazelleTorrent>(url, {
+  const response = await got<{ response: GazelleTorrent }>(url, {
     method: "GET",
     headers: {
       Authorization:
@@ -30,5 +30,5 @@ export async function getGazelleTorrent({
     responseType: "json",
   });
 
-  return response.body;
+  return response.body.response;
 }

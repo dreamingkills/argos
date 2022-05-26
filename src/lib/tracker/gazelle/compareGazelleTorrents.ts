@@ -2,10 +2,10 @@ import { GazelleEncoding, GazelleTorrent, GazelleTorrentGroup } from "gazelle";
 
 export function compareGazelleTorrents(
   t:
-    | GazelleTorrent["response"]["torrent"]
+    | GazelleTorrent["torrent"]
     | GazelleTorrentGroup["response"]["torrents"][number],
   o:
-    | GazelleTorrent["response"]["torrent"]
+    | GazelleTorrent["torrent"]
     | GazelleTorrentGroup["response"]["torrents"][number],
   desiredFormat?: "FLAC" | "MP3",
   desiredEncoding?: GazelleEncoding,

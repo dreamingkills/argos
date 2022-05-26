@@ -25,8 +25,8 @@ export async function uploadGazelleTorrent({
 }): Promise<GazelleUpload> {
   let url = `${CONSTANTS.GAZELLE_BASE_URLS[tracker]}/ajax.php?action=upload`;
 
-  const g = original.torrent.response.group;
-  const t = original.torrent.response.torrent;
+  const g = original.torrent.group;
+  const t = original.torrent.torrent;
 
   const form = new FormData();
   form.append("file_input", torrent, {

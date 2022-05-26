@@ -7,5 +7,5 @@ export async function getQbVersion(): Promise<string> {
     json: false,
   });
 
-  return res.body;
+  return res;
 }

@@ -7,81 +7,74 @@ declare module "gazelle" {
   export type GazelleEncoding = "Lossless" | "320" | "V0 (VBR)";
 
   export interface GazelleTorrent {
-    status: "success" | unknown;
-    response: {
-      group: {
-        wikiBody: string;
-        wikiBBcode: string;
-        wikiImage: string;
-        id: number;
-        name: string;
-        year: number;
-        recordLabel: string;
-        catalogueNumber: string;
-        releaseType: number;
-        releaseTypeName: "EP";
-        categoryId: number;
-        categoryName: "Music";
-        time: string;
-        vanityHouse: boolean;
-        isBookmarked: boolean;
-        tags: string[];
-        musicInfo: {
-          artists: GazelleArtist[];
-          with: GazelleArtist[];
-          remixedBy: GazelleArtist[];
-          composers: GazelleArtist[];
-          conductor: GazelleArtist[];
-          dj: GazelleArtist[];
-          producer: GazelleArtist[];
-          arranger: GazelleArtist[];
-        };
-      };
-      torrent: {
-        infoHash: string;
-        id: number;
-        media:
-          | "CD"
-          | "WEB"
-          | "Vinyl"
-          | "DVD"
-          | "BD"
-          | "Soundboard"
-          | "SACD"
-          | "DAT"
-          | "Casette";
-        format: "FLAC" | "MP3" | "AAC" | "AC3" | "DTS" | "Ogg Vorbis";
-        encoding: GazelleEncoding;
-        remastered: boolean;
-        remasterYear: unknown | null;
-        remasterTitle: string;
-        remasterRecordLabel: string;
-        remasterCatalogueNumber: string;
-        scene: boolean;
-        hasLog: boolean;
-        hasCue: boolean;
-        logScore: number;
-        logChecksum: false;
-        logCount: number;
-        ripLogIds: unknown[];
-        fileCount: number;
-        size: number;
-        seeders: number;
-        leechers: number;
-        snatched: number;
-        freeTorrent: "0";
-        reported: boolean;
-        time: string;
-        description: string;
-        fileList: string;
-        filePath: string;
-        userId: number;
-        username: string;
+    group: {
+      wikiBody: string;
+      wikiBBcode: string;
+      wikiImage: string;
+      id: number;
+      name: string;
+      year: number;
+      recordLabel: string;
+      catalogueNumber: string;
+      releaseType: number;
+      releaseTypeName: "EP";
+      categoryId: number;
+      categoryName: "Music";
+      time: string;
+      vanityHouse: boolean;
+      isBookmarked: boolean;
+      tags: string[];
+      musicInfo: {
+        artists: GazelleArtist[];
+        with: GazelleArtist[];
+        remixedBy: GazelleArtist[];
+        composers: GazelleArtist[];
+        conductor: GazelleArtist[];
+        dj: GazelleArtist[];
+        producer: GazelleArtist[];
+        arranger: GazelleArtist[];
       };
     };
-    info: {
-      source: "Orpheus";
-      version: number;
+    torrent: {
+      infoHash: string;
+      id: number;
+      media:
+        | "CD"
+        | "WEB"
+        | "Vinyl"
+        | "DVD"
+        | "BD"
+        | "Soundboard"
+        | "SACD"
+        | "DAT"
+        | "Casette";
+      format: "FLAC" | "MP3" | "AAC" | "AC3" | "DTS" | "Ogg Vorbis";
+      encoding: GazelleEncoding;
+      remastered: boolean;
+      remasterYear: unknown | null;
+      remasterTitle: string;
+      remasterRecordLabel: string;
+      remasterCatalogueNumber: string;
+      scene: boolean;
+      hasLog: boolean;
+      hasCue: boolean;
+      logScore: number;
+      logChecksum: false;
+      logCount: number;
+      ripLogIds: unknown[];
+      fileCount: number;
+      size: number;
+      seeders: number;
+      leechers: number;
+      snatched: number;
+      freeTorrent: "0";
+      reported: boolean;
+      time: string;
+      description: string;
+      fileList: string;
+      filePath: string;
+      userId: number;
+      username: string;
     };
   }
 

@@ -8,6 +8,7 @@ import { compareGazelleTorrents } from "../../lib/tracker/gazelle/compareGazelle
 import { getGazelleTorrent } from "../../lib/tracker/gazelle/getGazelleTorrent";
 import { getGazelleTorrentGroup } from "../../lib/tracker/gazelle/getGazelleTorrentGroup";
 import { searchGazelleTorrents } from "../../lib/tracker/gazelle/searchGazelleTorrents";
+import { snatch } from "../../lib/tracker/gazelle/snatch";
 import { uploadGazelleTorrent } from "../../lib/tracker/gazelle/uploadGazelleTorrent";
 import { makeTorrent } from "../../lib/tracker/makeTorrent";
 import { isGazelleTracker } from "../../lib/tracker/util/isTracker";
@@ -25,16 +26,29 @@ export const transcode: RunCommand = async ({ message, client }) => {
     throw new Error("No torrent found");
   }
 
-  const torrent = await getTorrent(trackerTorrent.response.torrent.infoHash);
+  let torrent = await getTorrent(trackerTorrent.torrent.infoHash);
 
   if (!torrent) {
-    throw new Error("Torrent not downloaded");
+    torrent = await snatch({ tracker, torrentId });
+    let downloaded = false;
+
+    while (downloaded === false) {
+      const _torrent = await getTorrent(torrent.hash);
+      if (!_torrent) return;
+
+      console.log(_torrent.progress);
+      if (_torrent.progress === 1) downloaded = true;
+
+      await new Promise<void>((res) => {
+        setTimeout(() => res(), 2500);
+      });
+    }
   }
 
-  const originTorrent = trackerTorrent.response.torrent;
+  const originTorrent = trackerTorrent.torrent;
 
   const torrentGroup = await getGazelleTorrentGroup({
-    id: trackerTorrent?.response.group.id,
+    id: trackerTorrent?.group.id,
     tracker,
   });
 
@@ -64,14 +78,13 @@ export const transcode: RunCommand = async ({ message, client }) => {
 
   const search = await searchGazelleTorrents(
     target,
-    `${trackerTorrent.response.group.musicInfo.artists[0].name} - ${trackerTorrent.response.group.name}`
+    `${trackerTorrent.group.musicInfo.artists[0].name} - ${trackerTorrent.group.name}`
   );
 
   const match = search.response.results.find(
     (r) =>
-      r.groupName.toLowerCase() ===
-        trackerTorrent.response.group.name.toLowerCase() &&
-      trackerTorrent.response.group.musicInfo.artists
+      r.groupName.toLowerCase() === trackerTorrent.group.name.toLowerCase() &&
+      trackerTorrent.group.musicInfo.artists
         .map((a) => a.name.toLowerCase())
         .includes(r.artist.toLowerCase())
   );
@@ -114,7 +127,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
     author: { icon_url: client.user.dynamicAvatarURL(), name: "Transcode Job" },
     description:
       "Torrent" +
-      `\n**[[${trackerTorrent.response.torrent.media}-${trackerTorrent.response.torrent.format} ${trackerTorrent.response.torrent.encoding}] ${trackerTorrent.response.group.musicInfo.artists[0].name} - ${trackerTorrent.response.group.name}](${CONSTANTS.GAZELLE_BASE_URLS[tracker]}/torrents.php?torrentid=${trackerTorrent.response.torrent.id})**` +
+      `\n**[[${trackerTorrent.torrent.media}-${trackerTorrent.torrent.format} ${trackerTorrent.torrent.encoding}] ${trackerTorrent.group.musicInfo.artists[0].name} - ${trackerTorrent.group.name}](${CONSTANTS.GAZELLE_BASE_URLS[tracker]}/torrents.php?torrentid=${trackerTorrent.torrent.id})**` +
       `\n\nJobs` +
       (upload.target.cbr || upload.origin.cbr
         ? `\nTranscode **FLAC -> MP3 320** (in progress)`
@@ -158,8 +171,8 @@ export const transcode: RunCommand = async ({ message, client }) => {
       tracker: target,
       torrent: file,
       filename: `${torrent.name}.torrent`,
-      format: trackerTorrent.response.torrent.format,
-      encoding: trackerTorrent.response.torrent.encoding,
+      format: trackerTorrent.torrent.format,
+      encoding: trackerTorrent.torrent.encoding,
       original: { tracker, torrent: trackerTorrent },
       targetGroup: targetTorrentGroup.response.group,
     });
@@ -170,7 +183,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
     );
     await msg.edit({ embeds: [embed] });
 
-    await addTorrent(file, `${torrent.name}.torrent`);
+    await addTorrent(file, { category: "music" });
   }
 
   if (upload.origin.cbr || upload.target.cbr) {
@@ -224,7 +237,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
           );
           await msg.edit({ embeds: [embed] });
 
-          const addedTorrent = await addTorrent(file, `${name}.torrent`);
+          const addedTorrent = await addTorrent(file, { category: "music" });
           await addTorrentTags("etc", addedTorrent.hash);
         }
       }
@@ -282,7 +295,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
           );
           await msg.edit({ embeds: [embed] });
 
-          const addedTorrent = await addTorrent(file, `${name}.torrent`);
+          const addedTorrent = await addTorrent(file, { category: "music" });
           await addTorrentTags("etc", addedTorrent.hash);
         }
       }

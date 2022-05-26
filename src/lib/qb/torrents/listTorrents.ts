@@ -20,33 +20,14 @@ export async function listTorrents({
   reverse?: boolean;
 } = {}): Promise<Torrent[]> {
   const params: Record<string, string> = {};
-  if (hashes) {
-    params.hashes = normalizeHashes(hashes);
-  }
 
-  if (filter) {
-    params.filter = filter;
-  }
-
-  if (category) {
-    params.category = category;
-  }
-
-  if (tag) {
-    params.tag = tag;
-  }
-
-  if (offset !== undefined) {
-    params.offset = `${offset}`;
-  }
-
-  if (sort) {
-    params.sort = sort;
-  }
-
-  if (reverse) {
-    params.reverse = JSON.stringify(reverse);
-  }
+  if (hashes) params.hashes = normalizeHashes(hashes);
+  if (filter) params.filter = filter;
+  if (category) params.category = category;
+  if (tag) params.tag = tag;
+  if (offset !== undefined) params.offset = `${offset}`;
+  if (sort) params.sort = sort;
+  if (reverse) params.reverse = JSON.stringify(reverse);
 
   const res = await qb.request<Torrent[]>({
     path: "/torrents/info",
@@ -54,5 +35,5 @@ export async function listTorrents({
     params,
   });
 
-  return res.body;
+  return res;
 }

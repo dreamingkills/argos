@@ -1,7 +1,9 @@
-import { got, Options as GotOptions, Response } from "got";
+import { got, Options as GotOptions } from "got";
 import { urlJoin } from "@ctrl/url-join";
 import { Cookie } from "tough-cookie";
 import { TorrentSettings } from "qbittorrent";
+import axios from "axios";
+import FormData from "form-data";
 
 export class qBittorrent {
   config: TorrentSettings;
@@ -37,31 +39,30 @@ export class qBittorrent {
   }: {
     path: string;
     method: GotOptions["method"];
-    params?: any;
-    body?: GotOptions["body"];
-    form?: GotOptions["form"];
+    params?: object;
+    body?: object;
+    form?: FormData;
     headers?: any;
     json?: boolean;
-  }): Promise<Response<T>> {
+  }): Promise<T> {
     if (!this.cookieIsValid()) await this.login();
 
     const url = urlJoin(this.config.baseUrl, this.config.path, path);
-    const res = await got<T>(url, {
+    const response = await axios({
+      url,
       method,
       headers: {
         Cookie: `SID=${this.cookie ?? ""}`,
         ...headers,
+        ...form?.getHeaders(),
       },
-      retry: { limit: 0 },
-      body,
-      form,
-      searchParams: new URLSearchParams(params),
-      timeout: { request: this.config.timeout },
-      // this is stupid. wtf, got maintainer?
-      responseType: json ? "json" : ("text" as "json"),
+      timeout: this.config.timeout,
+      responseType: json ? "json" : "text",
+      data: body || form?.getBuffer(),
+      params,
     });
 
-    return res;
+    return response.data;
   }
 
   async login(): Promise<void> {

@@ -9,6 +9,7 @@ export class Argos extends Client {
 
   public async init(): Promise<void> {
     this.on("ready", () => console.log("Argos is now running."));
+    this.on("error", console.error);
 
     this.on("messageCreate", async (m) => {
       const isCommand = m.content.startsWith(".");
