@@ -37,7 +37,12 @@ export async function getTorrentName(
     .replace(/%m/gi, torrent.media)
     .replace(/%f/gi, torrent.format)
     .replace(/%b/gi, torrent.encoding)
-    .replace(/%c/gi, group.catalogueNumber ? `{${group.catalogueNumber}}` : "")
+    .replace(
+      /%c/gi,
+      torrent.remasterCatalogueNumber || group.catalogueNumber
+        ? `{${torrent.remasterCatalogueNumber || group.catalogueNumber}}`
+        : ""
+    )
     .trim();
 
   return name;
