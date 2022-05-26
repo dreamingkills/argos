@@ -183,7 +183,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
         .replace(/in progress/gim, "completed");
       await msg.edit({ embeds: [embed] });
 
-      const name = path.split("\\")[path.split("\\").length - 1];
+      const name = path.split("/")[path.split("/").length - 1];
 
       for (let source of ["origin", "target"] as const) {
         if (upload[source]["cbr"]) {
@@ -241,7 +241,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
         .replace(/in progress/gim, "completed");
       await msg.edit({ embeds: [embed] });
 
-      const name = path.split("\\")[path.split("\\").length - 1];
+      const name = path.split("/")[path.split("/").length - 1];
 
       for (let source of ["origin", "target"] as const) {
         if (upload[source]["vbr"]) {
