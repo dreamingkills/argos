@@ -167,7 +167,12 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
 
   if (!confirmed) return;
 
-  const download = new DownloadJob({ tracker, setId: 0, torrentId: torrentId });
+  const download = new DownloadJob({
+    tracker,
+    setId: 0,
+    torrentId: torrentId,
+    isEtc: message.content.includes("--etc"),
+  });
   const downloadingEmbed = (progress: number): Embed => {
     return {
       type: "",

@@ -15,6 +15,7 @@ import { sleep } from "../lib/util/sleep";
 import { makeTorrent } from "../lib/tracker/makeTorrent";
 import { CONSTANTS } from "../lib/constants";
 import { addTorrent } from "../lib/qb/torrents/addTorrent";
+import { addTorrentTags } from "../lib/qb/torrents/addTorrentTags";
 
 export class Job {
   _events: { [key: string]: Listener<any>[] } = {};
@@ -72,21 +73,25 @@ export class Job {
 
 export class DownloadJob extends Job {
   torrentId: number;
-  freeleech: boolean = false;
+  freeleech: boolean;
   result: Torrent | undefined;
+  isEtc: boolean;
 
   constructor({
     tracker,
     setId,
     torrentId,
     freeleech = false,
+    isEtc = false,
   }: JobInput & {
     torrentId: number;
     freeleech?: boolean;
+    isEtc?: boolean;
   }) {
     super({ tracker, setId });
     this.torrentId = torrentId;
     this.freeleech = freeleech;
+    this.isEtc = isEtc;
   }
 
   public async run(): Promise<Torrent> {
@@ -94,6 +99,7 @@ export class DownloadJob extends Job {
       tracker: this.tracker,
       torrentId: this.torrentId,
       freeleech: this.freeleech,
+      isEtc: this.isEtc,
     });
 
     while (torrent.progress < 1) {
@@ -133,7 +139,11 @@ export class TranscodeJob extends Job {
     const flacs = await glob(`${sanitizePath(torrent.content_path)}/**/*.flac`);
     if (flacs.length === 0) throw new Error("no files");
 
-    const outPath = convertTorrentPath(torrent.content_path, encoding);
+    const outPath = convertTorrentPath({
+      encoding,
+      folderName: torrent.content_path.split("/").pop()!,
+      isEtc: true,
+    });
 
     await copy(torrent.content_path, outPath);
     const discard = await glob(`${sanitizePath(outPath)}/**/*.flac`);
@@ -141,7 +151,10 @@ export class TranscodeJob extends Job {
 
     for (let [i, file] of flacs.entries()) {
       const metadata = await mm.parseFile(file);
-      const output = convertTorrentPath(file, encoding);
+      const output = `${outPath}/${file
+        .split("/")
+        .pop()!
+        .replace(/\.flac/gi, ".mp3")}`;
 
       await lame({
         input: file,
@@ -168,6 +181,7 @@ export class UploadJob extends Job {
   targetGroup: GazelleTorrentGroup["response"]["group"];
   subtext: string | undefined;
   result: number | undefined;
+  isEtc: boolean;
 
   constructor({
     tracker,
@@ -179,6 +193,7 @@ export class UploadJob extends Job {
     original,
     targetGroup,
     subtext,
+    isEtc = false,
   }: JobInput & {
     path: string;
     format: string;
@@ -187,6 +202,7 @@ export class UploadJob extends Job {
     original: { tracker: GazelleTracker; torrent: GazelleTorrent };
     targetGroup: GazelleTorrentGroup["response"]["group"];
     subtext?: string;
+    isEtc?: boolean;
   }) {
     super({ tracker, setId });
     this.path = path;
@@ -196,6 +212,7 @@ export class UploadJob extends Job {
     this.original = original;
     this.targetGroup = targetGroup;
     this.subtext = subtext;
+    this.isEtc = isEtc;
   }
 
   public async run() {
@@ -227,12 +244,14 @@ export class UploadJob extends Job {
     this.result = response.response.torrentid || response.response.torrentId;
     this.finish();
 
-    await addTorrent(file, {
+    const torrent = await addTorrent(file, {
       category: "music",
       contentLayout: "NoSubfolder",
       savepath: this.path,
       rename: name,
     });
+
+    if (this.isEtc) await addTorrentTags("etc", torrent.hash);
 
     return this.result;
   }
