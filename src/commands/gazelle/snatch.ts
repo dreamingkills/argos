@@ -207,6 +207,7 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
           setId: 0,
           torrent,
           encoding: f as "CBR" | "VBR",
+          gazelleTorrent: trackerTorrent,
         })
     );
 

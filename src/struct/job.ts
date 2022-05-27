@@ -118,6 +118,7 @@ export class DownloadJob extends Job {
 
 export class TranscodeJob extends Job {
   torrent: Torrent;
+  gazelleTorrent: GazelleTorrent;
   encoding: "CBR" | "VBR";
   result: string | undefined;
 
@@ -125,11 +126,17 @@ export class TranscodeJob extends Job {
     tracker,
     setId,
     torrent,
+    gazelleTorrent,
     encoding,
-  }: JobInput & { torrent: Torrent; encoding: "CBR" | "VBR" }) {
+  }: JobInput & {
+    torrent: Torrent;
+    gazelleTorrent: GazelleTorrent;
+    encoding: "CBR" | "VBR";
+  }) {
     super({ tracker, setId });
     this.torrent = torrent;
     this.encoding = encoding;
+    this.gazelleTorrent = gazelleTorrent;
   }
 
   public async run(): Promise<string> {
@@ -143,6 +150,7 @@ export class TranscodeJob extends Job {
       encoding,
       folderName: torrent.content_path.split("/").pop()!,
       isEtc: true,
+      torrent: this.gazelleTorrent,
     });
 
     await copy(torrent.content_path, outPath);
