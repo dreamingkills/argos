@@ -1,8 +1,8 @@
 import { qb } from "../../..";
 import { AddTorrentOptions, Torrent } from "qbittorrent";
 import { hash } from "@ctrl/torrent-file";
-import { getTorrent } from "./getTorrent";
 import FormData from "form-data";
+import { listTorrents } from "./listTorrents";
 
 export async function addTorrent(
   torrent: Buffer,
@@ -31,8 +31,9 @@ export async function addTorrent(
   }
 
   const torrentHash = await hash(torrent);
-  console.log(torrentHash);
-  const qbTorrent = await getTorrent(torrentHash);
+  const qbTorrent = (await listTorrents({ category: "music" })).find(
+    (t) => t.hash === torrentHash || t.name === options?.rename
+  );
 
   if (!qbTorrent) throw new Error("Failed to find added torrent in client.");
 
