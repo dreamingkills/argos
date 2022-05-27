@@ -21,7 +21,7 @@ export async function getTorrentName(
         ? group.musicInfo.dj[0].name
         : "Various Artists";
 
-    if (hasArtist[0] === "A") artist = artist.toUpperCase();
+    if (hasArtist[0] === "%A") artist = artist.toUpperCase();
 
     name = name.replace(/%a/gi, artist);
   }
@@ -30,7 +30,7 @@ export async function getTorrentName(
   if (hasName) {
     let groupName = group.name;
 
-    if (hasName[0] === "N") groupName = groupName.toUpperCase();
+    if (hasName[0] === "%N") groupName = groupName.toUpperCase();
 
     name = name.replace(/%n/gi, groupName);
   }
