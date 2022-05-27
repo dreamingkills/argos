@@ -171,6 +171,7 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
     tracker,
     setId: 0,
     torrentId: torrentId,
+    freeleech: message.content.includes("--fl"),
     isEtc: message.content.includes("--etc"),
   });
   const downloadingEmbed = (progress: number): Embed => {
