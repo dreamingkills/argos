@@ -11,7 +11,7 @@ export async function lame({
   input: string;
   output: string;
   tags: ICommonTagsResult;
-  type: "320" | "v0";
+  type: "CBR" | "VBR";
 }): Promise<unknown> {
   const chunks: Buffer[] = [];
   const writable = new Writable({
@@ -37,14 +37,14 @@ export async function lame({
 
   let opt = "";
 
-  if (type === "v0") {
+  if (type === "VBR") {
     opt = "-V0 --vbr-new";
   } else {
     opt = "-b 320";
   }
 
   execSync(
-    `${process.env.LAME_PATH || "lame"} ${opt} --add-id3v2 --tt "${
+    `${process.env.LAME_PATH || "lame"} -S ${opt} --add-id3v2 --tt "${
       tags.title
     }" --ta "${tags.artist}" --tl "${tags.album}" --ty "${tags.year}" --tn "${
       tags.track.no

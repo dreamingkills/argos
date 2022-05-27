@@ -8,7 +8,7 @@ import { sanitizePath } from "../util/sanitizePath";
 
 export async function transcodeFolder(
   torrent: Torrent,
-  bitrate: "320" | "v0"
+  bitrate: "CBR" | "VBR"
 ): Promise<string> {
   const path = sanitizePath(torrent.content_path);
 
@@ -18,7 +18,7 @@ export async function transcodeFolder(
   const outPath = torrent.content_path
     .replace(
       /FLAC (24bit )?Lossless/gim,
-      `MP3 ${bitrate === "320" ? "320" : "V0 (VBR)"}`
+      `MP3 ${bitrate === "CBR" ? "320" : "V0 (VBR)"}`
     )
     .replace(/ \((\d{1,3}%)?( - )?(Cue)?\)(?=$|\/|\\)/gim, "");
 
@@ -49,7 +49,7 @@ export async function transcodeFolder(
     const output = file
       .replace(
         /FLAC (24bit )?Lossless/gim,
-        `MP3 ${bitrate === "320" ? "320" : "V0 (VBR)"}`
+        `MP3 ${bitrate === "CBR" ? "320" : "V0 (VBR)"}`
       )
       .replace(/ \((\d{1,3}%)?( - )?(Cue)?\)(?=$|\/|\\)/gim, "")
       .replace(/\.flac$/gim, ".mp3");

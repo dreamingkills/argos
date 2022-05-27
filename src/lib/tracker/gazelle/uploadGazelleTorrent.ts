@@ -80,6 +80,7 @@ export async function uploadGazelleTorrent({
       responseType: "json",
     });
 
+    console.log(response.body);
     return response.body;
   } catch (e: any) {
     console.log(e.response.body);

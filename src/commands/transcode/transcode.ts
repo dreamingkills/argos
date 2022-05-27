@@ -187,7 +187,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
   }
 
   if (upload.origin.cbr || upload.target.cbr) {
-    transcodeFolder(torrent!, "320").then(async (path) => {
+    transcodeFolder(torrent!, "CBR").then(async (path) => {
       embed.description = embed
         .description!.replace(
           /(Transcode \*\*FLAC -> MP3 320\*\*)/gim,
@@ -245,7 +245,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
   }
 
   if (upload.origin.vbr || upload.target.vbr) {
-    transcodeFolder(torrent!, "v0").then(async (path) => {
+    transcodeFolder(torrent!, "VBR").then(async (path) => {
       embed.description = embed
         .description!.replace(
           /(Transcode \*\*FLAC -> MP3 V0 \(VBR\)\*\*)/gim,
