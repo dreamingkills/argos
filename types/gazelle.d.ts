@@ -213,7 +213,8 @@ declare module "gazelle" {
       private: boolean;
       source: boolean;
       requestid: number | null;
-      torrentid: number;
+      torrentid: number | undefined;
+      torrentId: number | undefined;
       groupid: number;
     };
   }
