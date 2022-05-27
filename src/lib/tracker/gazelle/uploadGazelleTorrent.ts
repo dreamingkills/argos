@@ -62,7 +62,7 @@ export async function uploadGazelleTorrent({
     }/user.php?id=${t.userId}]${t.username}[/url]${
       subtext ? `\n${subtext}` : ""
     }[/size]${
-      t.description || ""
+      t.description ? `\n${t.description}` : ""
     }[/quote]• Automatically uploaded with [b][color=#d05141]Argos[/color][/b] •[/align]`
   );
 
