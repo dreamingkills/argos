@@ -3,5 +3,7 @@ export function sanitizePath(path: string): string {
     .replace(/\[/gim, "\\[")
     .replace(/\]/gim, "\\]")
     .replace(/\(/gim, "\\(")
-    .replace(/\)/gim, "\\)");
+    .replace(/\)/gim, "\\)")
+    .replace(/\{/gim, "\\{")
+    .replace(/\}/gim, "\\}");
 }
