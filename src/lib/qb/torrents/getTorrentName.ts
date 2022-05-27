@@ -15,9 +15,11 @@ export async function getTorrentName(
   const hasArtist = name.match(/%a/gi);
   if (hasArtist) {
     let artist =
-      group.musicInfo.artists.length > 1
-        ? "Various Artists"
-        : group.musicInfo.artists[0].name;
+      group.musicInfo.artists.length === 1
+        ? group.musicInfo.artists[0].name
+        : group.musicInfo.dj[0]
+        ? group.musicInfo.dj[0].name
+        : "Various Artists";
 
     if (hasArtist[0] === "A") artist = artist.toUpperCase();
 
