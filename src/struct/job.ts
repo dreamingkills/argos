@@ -224,7 +224,7 @@ export class UploadJob extends Job {
       subtext: this.subtext,
     });
 
-    this.result = response.response.torrentid;
+    this.result = response.response.torrentid || response.response.torrentId;
     this.finish();
 
     await addTorrent(file, {
