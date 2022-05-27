@@ -262,6 +262,7 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
           subtext: `[code]flac --decode --stdout | lame ${
             j.encoding === "CBR" ? "-b 320" : "-V0 --vbr-new"
           } --add-id3v2[/code]`,
+          isEtc: true,
         })
     );
 
