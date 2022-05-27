@@ -29,7 +29,7 @@ export const transcode: RunCommand = async ({ message, client }) => {
   let torrent = await getTorrent(trackerTorrent.torrent.infoHash);
 
   if (!torrent) {
-    torrent = await snatch({ tracker, torrentId });
+    torrent = await snatch({ tracker, torrent: trackerTorrent });
     let downloaded = false;
 
     while (downloaded === false) {

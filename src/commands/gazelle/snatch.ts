@@ -170,7 +170,7 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
   const download = new DownloadJob({
     tracker,
     setId: 0,
-    torrentId: torrentId,
+    torrent: trackerTorrent,
     freeleech: message.content.includes("--fl"),
     isEtc: message.content.includes("--etc"),
   });

@@ -1,41 +1,46 @@
 import { GazelleTracker } from "argos";
+import { GazelleTorrent } from "gazelle";
 import { Torrent } from "qbittorrent";
 import { addTorrent } from "../../qb/torrents/addTorrent";
 import { addTorrentTags } from "../../qb/torrents/addTorrentTags";
 import { getTorrentName } from "../../qb/torrents/getTorrentName";
 import { downloadGazelleTorrent } from "./downloadGazelleTorrent";
+import { getTorrentArtists } from "./getTorrentArtists";
 
 export async function snatch({
   tracker,
-  torrentId,
+  torrent,
   freeleech = false,
   isEtc = false,
 }: {
   tracker: GazelleTracker;
-  torrentId: number;
+  torrent: GazelleTorrent;
   freeleech?: boolean;
   isEtc?: boolean;
 }): Promise<Torrent> {
-  const name = await getTorrentName(tracker, torrentId);
+  const name = await getTorrentName(tracker, torrent.torrent.id);
 
   const file = await downloadGazelleTorrent({
     tracker,
-    torrentId,
+    torrentId: torrent.torrent.id,
     freeleech,
   });
 
-  const torrent = await addTorrent(file, {
+  const downloadPath = isEtc
+    ? process.env.QBITTORRENT_DOWNLOAD_ETC_PATH!
+    : process.env.QBITTORRENT_DOWNLOAD_PATH!;
+
+  const _torrent = await addTorrent(file, {
     contentLayout: "NoSubfolder",
-    savepath: `${
-      isEtc
-        ? process.env.QBITTORRENT_DOWNLOAD_ETC_PATH
-        : process.env.QBITTORRENT_DOWNLOAD_PATH
-    }/${name}`,
+    savepath: `${downloadPath!.replace(
+      /%a/gi,
+      getTorrentArtists(torrent, !!downloadPath.match(/%A/g))
+    )}/${name}`,
     rename: name,
     category: "music",
   });
 
-  if (isEtc) await addTorrentTags("etc", torrent.hash);
+  if (isEtc) await addTorrentTags("etc", _torrent.hash);
 
-  return torrent;
+  return _torrent;
 }

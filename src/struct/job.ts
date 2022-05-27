@@ -72,7 +72,7 @@ export class Job {
 }
 
 export class DownloadJob extends Job {
-  torrentId: number;
+  torrent: GazelleTorrent;
   freeleech: boolean;
   result: Torrent | undefined;
   isEtc: boolean;
@@ -80,16 +80,16 @@ export class DownloadJob extends Job {
   constructor({
     tracker,
     setId,
-    torrentId,
+    torrent,
     freeleech = false,
     isEtc = false,
   }: JobInput & {
-    torrentId: number;
+    torrent: GazelleTorrent;
     freeleech?: boolean;
     isEtc?: boolean;
   }) {
     super({ tracker, setId });
-    this.torrentId = torrentId;
+    this.torrent = torrent;
     this.freeleech = freeleech;
     this.isEtc = isEtc;
   }
@@ -97,7 +97,7 @@ export class DownloadJob extends Job {
   public async run(): Promise<Torrent> {
     let torrent = await snatch({
       tracker: this.tracker,
-      torrentId: this.torrentId,
+      torrent: this.torrent,
       freeleech: this.freeleech,
       isEtc: this.isEtc,
     });
