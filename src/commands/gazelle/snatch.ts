@@ -177,9 +177,9 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
       },
       description:
         "Torrent snatched! It's now downloading..." +
-        `\n[${"▓".repeat(Math.floor((progress * 100) / 5))}${"░".repeat(
-          Math.ceil(100 - progress * 100) / 5
-        )}] (${(progress * 100).toFixed(2)}%)`,
+        `\n${"▓".repeat(Math.floor((progress * 100) / 5)).padEnd(20, "░")} **${(
+          progress * 100
+        ).toFixed(2)}%**`,
     };
   };
 
