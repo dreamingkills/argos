@@ -31,6 +31,7 @@ export async function addTorrent(
   }
 
   const torrentHash = await hash(torrent);
+  console.log(torrentHash);
   const qbTorrent = await getTorrent(torrentHash);
 
   if (!qbTorrent) throw new Error("Failed to find added torrent in client.");
