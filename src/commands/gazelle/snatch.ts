@@ -277,7 +277,7 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
       description: `Transcodes + uploads complete!\n${uploadJobs
         .map(
           (j) =>
-            `[**FLAC -> MP3 ${j.encoding}**](${CONSTANTS.GAZELLE_BASE_URLS[tracker]}//torrents.php?torrentid=${j.result})`
+            `[**FLAC -> MP3 ${j.encoding}**](${CONSTANTS.GAZELLE_BASE_URLS[tracker]}/torrents.php?torrentid=${j.result})`
         )
         .join("\n")}\n\nEnjoy your music :)`,
     };
