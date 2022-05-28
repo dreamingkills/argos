@@ -22,14 +22,16 @@ export async function downloadGazelleTorrent({
   if (tracker === "red") url += `&authkey=${process.env.REDACTED_AUTH_KEY}`;
   if (freeleech) url += `&usetoken=1`;
 
-  console.log("Attempting to download torrent");
-
   const res = await got(url, {
     method: "GET",
     responseType: "buffer",
+    headers: {
+      Authorization:
+        process.env[
+          `${CONSTANTS.TRACKER_FULL_NAME[tracker].toUpperCase()}_API_TOKEN`
+        ],
+    },
   } as OptionsOfBufferResponseBody);
-
-  console.log("Torrent downloaded");
 
   return res.body;
 }
