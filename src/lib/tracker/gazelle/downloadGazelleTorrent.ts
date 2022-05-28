@@ -25,12 +25,6 @@ export async function downloadGazelleTorrent({
   const res = await got(url, {
     method: "GET",
     responseType: "buffer",
-    headers: {
-      Authorization:
-        process.env[
-          `${CONSTANTS.TRACKER_FULL_NAME[tracker].toUpperCase()}_API_TOKEN`
-        ],
-    },
   } as OptionsOfBufferResponseBody);
 
   return res.body;
