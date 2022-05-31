@@ -1,5 +1,6 @@
 import { GazelleTracker } from "argos";
 import { getGazelleTorrent } from "../../tracker/gazelle/getGazelleTorrent";
+import { getTorrentArtists } from "../../tracker/gazelle/getTorrentArtists";
 
 export async function getTorrentName(
   tracker: GazelleTracker,
@@ -14,15 +15,7 @@ export async function getTorrentName(
 
   const hasArtist = name.match(/%a/gi);
   if (hasArtist) {
-    let artist =
-      group.musicInfo.artists.length === 1
-        ? group.musicInfo.artists[0].name
-        : group.musicInfo.dj[0]
-        ? group.musicInfo.dj[0].name
-        : "Various Artists";
-
-    if (hasArtist[0] === "%A") artist = artist.toUpperCase();
-
+    const artist = getTorrentArtists(gazelleTorrent, hasArtist[0] === "%A");
     name = name.replace(/%a/gi, artist);
   }
 

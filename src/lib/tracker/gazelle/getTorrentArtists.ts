@@ -11,6 +11,8 @@ export function getTorrentArtists(
     artist = musicInfo.dj[0].name;
   } else if (musicInfo.artists.length === 1) {
     artist = musicInfo.artists[0].name;
+  } else if (musicInfo.artists.length === 2) {
+    artist = musicInfo.artists.map((a) => a.name).join(" & ");
   } else artist = "Various Artists";
 
   if (capitalize) artist = artist.toUpperCase();
