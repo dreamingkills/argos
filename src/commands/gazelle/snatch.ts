@@ -59,6 +59,9 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
         `\n\nThis torrent is missing the following formats: **${primaryFormats.join(
           "**, **"
         )}**.\nWould you like to automatically transcode and upload these formats?`,
+      image: trackerTorrent.group.wikiImage
+        ? { url: trackerTorrent.group.wikiImage }
+        : undefined,
     };
 
     const timestamp = Date.now();
@@ -119,6 +122,9 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
         "You're about to snatch the following torrent from RED:" +
         `\n**${await getTorrentName(tracker, torrentId)}**` +
         `\n\nThis torrent does not need to be transcoded.`,
+      image: trackerTorrent.group.wikiImage
+        ? { url: trackerTorrent.group.wikiImage }
+        : undefined,
     };
 
     const timestamp = Date.now();
@@ -186,6 +192,9 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
         `\n${"▓".repeat(Math.floor((progress * 100) / 5)).padEnd(20, "░")} **${(
           progress * 100
         ).toFixed(2)}%**`,
+      image: trackerTorrent.group.wikiImage
+        ? { url: trackerTorrent.group.wikiImage }
+        : undefined,
     };
   };
 
@@ -233,6 +242,9 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
                 vbrProgress * 100
               ).toFixed(2)}%)`
             : ""),
+        image: trackerTorrent.group.wikiImage
+          ? { url: trackerTorrent.group.wikiImage }
+          : undefined,
       };
     };
 
@@ -280,6 +292,9 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
             `[**FLAC -> MP3 ${j.encoding}**](${CONSTANTS.GAZELLE_BASE_URLS[tracker]}/torrents.php?torrentid=${j.result})`
         )
         .join("\n")}\n\nEnjoy your music :)`,
+      image: trackerTorrent.group.wikiImage
+        ? { url: trackerTorrent.group.wikiImage }
+        : undefined,
     };
 
     await client.editMessage(status.channel.id, status.id, { embeds: [embed] });
@@ -292,6 +307,9 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
         name: "Snatch Torrent",
       },
       description: "Download complete! Enjoy your music :)",
+      image: trackerTorrent.group.wikiImage
+        ? { url: trackerTorrent.group.wikiImage }
+        : undefined,
     };
 
     await client.editMessage(status.channel.id, status.id, { embeds: [embed] });
