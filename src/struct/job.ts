@@ -102,11 +102,11 @@ export class DownloadJob extends Job {
       isEtc: this.isEtc,
     });
 
-    let currentProgress: number = 0;
+    let currentProgress: number | undefined;
 
     while (torrent.progress < 1) {
       const _torrent = (await getTorrent(torrent.hash))!;
-      if (_torrent.progress === currentProgress) continue;
+      if (currentProgress && _torrent.progress === currentProgress) continue;
 
       currentProgress = _torrent.progress;
       torrent = _torrent;
