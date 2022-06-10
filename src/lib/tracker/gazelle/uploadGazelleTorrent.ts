@@ -61,7 +61,7 @@ export async function uploadGazelleTorrent({
       CONSTANTS.GAZELLE_BASE_URLS[original.tracker]
     }/user.php?id=${t.userId}]${t.username}[/url]${
       subtext ? `\n${subtext}` : ""
-    }[/size][quote]${t.description ? `\n${t.description}` : ""}[/quote][/align]`
+    }[/size]${t.description ? `\n[quote]${t.description}[/quote]` : ""}[/align]`
   );
 
   try {
