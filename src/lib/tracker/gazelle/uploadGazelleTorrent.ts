@@ -53,7 +53,7 @@ export async function uploadGazelleTorrent({
     form.append("remaster_catalogue_number", t.remasterCatalogueNumber);
   form.append(
     "release_desc",
-    `[align=center][quote][size=1]originally uploaded to [url=${
+    `[align=center][size=1]originally uploaded to [url=${
       CONSTANTS.GAZELLE_BASE_URLS[original.tracker]
     }/torrents.php?torrentid=${
       t.id
@@ -61,9 +61,7 @@ export async function uploadGazelleTorrent({
       CONSTANTS.GAZELLE_BASE_URLS[original.tracker]
     }/user.php?id=${t.userId}]${t.username}[/url]${
       subtext ? `\n${subtext}` : ""
-    }[/size]${
-      t.description ? `\n${t.description}` : ""
-    }[/quote]• Automatically uploaded with [b][color=#d05141]Argos[/color][/b] •[/align]`
+    }[/size][quote]${t.description ? `\n${t.description}` : ""}[/quote][/align]`
   );
 
   try {
