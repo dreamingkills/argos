@@ -5,6 +5,7 @@ import mm from "music-metadata";
 import { lame } from "./lame";
 import cpr from "cpr";
 import { sanitizePath } from "../util/sanitizePath";
+import { listTorrents } from "../qb/torrents/listTorrents";
 
 export async function transcodeFolder(
   torrent: Torrent,
@@ -21,6 +22,13 @@ export async function transcodeFolder(
       `MP3 ${bitrate === "CBR" ? "320" : "V0 (VBR)"}`
     )
     .replace(/ \((\d{1,3}%)?( - )?(Cue)?\)(?=$|\/|\\)/gim, "");
+
+  const torrents = await listTorrents();
+  const torrentExists = torrents.find(
+    (t) => t.name === outPath.split("/")[outPath.split("/").length - 1]
+  );
+
+  if (torrentExists) return outPath;
 
   await new Promise<void>((resolve, reject) => {
     cpr(
