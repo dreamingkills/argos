@@ -16,6 +16,7 @@ import { makeTorrent } from "../lib/tracker/makeTorrent";
 import { CONSTANTS } from "../lib/constants";
 import { addTorrent } from "../lib/qb/torrents/addTorrent";
 import { addTorrentTags } from "../lib/qb/torrents/addTorrentTags";
+import { listTorrents } from "../lib/qb/torrents/listTorrents";
 
 export class Job {
   _events: { [key: string]: Listener<any>[] } = {};
@@ -157,6 +158,17 @@ export class TranscodeJob extends Job {
       isEtc: true,
       torrent: this.gazelleTorrent,
     });
+
+    const torrents = await listTorrents();
+    const torrentExists = torrents.find((t) => t.content_path === outPath);
+
+    if (torrentExists) {
+      this.setProgress(1);
+      this.result = outPath;
+      this.finish();
+
+      return outPath;
+    }
 
     await copy(torrent.content_path, outPath);
     const discard = await glob(`${sanitizePath(outPath)}/**/*.flac`);
