@@ -250,9 +250,11 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
 
     jobs.forEach((job) =>
       job.addListener("progress", async () => {
-        await client.editMessage(status.channel.id, status.id, {
-          embeds: [transcodingEmbed(jobs)],
-        });
+        try {
+          await client.editMessage(status.channel.id, status.id, {
+            embeds: [transcodingEmbed(jobs)],
+          });
+        } catch {}
       })
     );
 
