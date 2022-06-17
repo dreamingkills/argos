@@ -35,7 +35,7 @@ export async function snatch({
     savepath: `${downloadPath!.replace(
       /%a/gi,
       getTorrentArtists(torrent, !!downloadPath.match(/%A/g))
-    )}/${name.replace(/\?/g, "")}`,
+    )}/${name.replace(/\?/g, "").replace(/\//g, "-")}`,
     rename: name,
     category: "music",
   });
