@@ -199,10 +199,12 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
   };
 
   download.addListener("progress", async (progress) => {
-    await client.editMessage(status.channel.id, status.id, {
-      embeds: [downloadingEmbed(progress)],
-      components: [],
-    });
+    try {
+      await client.editMessage(status.channel.id, status.id, {
+        embeds: [downloadingEmbed(progress)],
+        components: [],
+      });
+    } catch {}
   });
 
   const torrent = await download.run();
@@ -299,7 +301,11 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
         : undefined,
     };
 
-    await client.editMessage(status.channel.id, status.id, { embeds: [embed] });
+    try {
+      await client.editMessage(status.channel.id, status.id, {
+        embeds: [embed],
+      });
+    } catch {}
     return;
   } else {
     const embed: Embed = {
@@ -314,7 +320,11 @@ export const snatchCommand: RunCommand = async ({ message, client }) => {
         : undefined,
     };
 
-    await client.editMessage(status.channel.id, status.id, { embeds: [embed] });
+    try {
+      await client.editMessage(status.channel.id, status.id, {
+        embeds: [embed],
+      });
+    } catch {}
     return;
   }
 };
